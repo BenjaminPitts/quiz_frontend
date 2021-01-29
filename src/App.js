@@ -17,6 +17,7 @@ class App extends Component {
 
     handleSubmit = (event) => {
       event.preventDefault()
+      event.target.reset()
       axios.post('/quiz', this.state).then((response) => {
         this.getQuestion()
       })
@@ -44,9 +45,6 @@ class App extends Component {
         (response) => this.setState({
           quiz: response.data,
           question: '',
-          choice1: '',
-          choice2: '',
-          choice3: '',
           answer: ''
         }),
         (err) => console.error(err)
@@ -73,6 +71,29 @@ class App extends Component {
       })
     }
 
+    isCorrect=()=>{
+      return <div className='correct'>
+      <h3>CORRECT!</h3>
+      </div>
+    }
+    isIncorrect=()=>{
+      return <div className='incorrect'>
+      <h3>INCORRECT!</h3>
+      </div>
+    }
+
+    isTrue=(event)=>{
+      event.preventDefault()
+      axios.get('/quiz/' + event.target.id).then((response)=>{
+
+        if(this.state.answer == event.target.value) {
+          this.isCorrect()
+        } else {
+          this.isIncorrect()
+        }
+      })
+    }
+
     componentDidMount = () => {
       this.getQuestion()
     }
@@ -85,34 +106,35 @@ return (
     <h2>Create New Question:</h2>
       <form onSubmit={this.handleSubmit}>
       <label htmlFor='question'>Q:</label>
-      <input type='text' id='question' onChange={this.handleChange} value={this.state.Question} /><br />
+      <input type='text' id='question' onChange={this.handleChange} value={this.state.question} /><br />
       <label htmlFor='answer'>A:</label>
       <input type='text' id='answer' onChange={this.handleChange} value={this.state.answer} />
       <br />
       <input type='submit' value='Create Question' />
       </form>
-        <button value={this._id} onClick={this.showAnswer}>
-        Show Answer</button>
-        <br />
-        <br />
-<h4>{ this.state.showAnswer ? 'Answer: ' + this.state.answer : null }</h4>
+
+
 
 <div className='quiz'>
-
   {this.state.quiz.map((quiz) => {
     return  <Quiz quiz={quiz} key={quiz.id}
     updateQuestion={this.updateQuestion}
     deleteQuestion={this.deleteQuestion}
     handleChange={this.handleChange}
     showAnswer={this.showAnswer}
+    isTrue={this.props.isTrue}
     />
 })}
+
+<button value={this._id} onClick={this.showAnswer}>
+Show Answer</button>
+<br />
+<h4>{ this.state.showAnswer ? 'Answer: ' + this.state.answer : null }</h4>
+
       </div>
     </div>
 </div>
-
     )
-    return  <Quiz /> 
   }
 }
 
