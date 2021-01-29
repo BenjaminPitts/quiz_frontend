@@ -6,6 +6,8 @@ class App extends Component {
   state = {
     question: '',
     answer: '',
+    answer_char: '',
+    point_value: '',
     quiz: [],
   }
 
@@ -45,7 +47,9 @@ class App extends Component {
         (response) => this.setState({
           quiz: response.data,
           question: '',
-          answer: ''
+          answer: '',
+          answer_char: '',
+          point_value: ''
         }),
         (err) => console.error(err)
       )
@@ -56,16 +60,16 @@ class App extends Component {
       event.preventDefault()
       let answer = this.state.showAnswer
       axios.get('/quiz/' + event.target.id).then((response)=>{
-
+        console.log(response)
           if(answer) {
             this.setState({
               showAnswer:false,
-              quiz: response.data
+              quiz: response.data[0]
             })
           } else {
             this.setState({
               showAnswer:true,
-              quiz: response.data
+              quiz: response.data[0]
             })
           }
       })
@@ -85,8 +89,8 @@ class App extends Component {
     isTrue=(event)=>{
       event.preventDefault()
       axios.get('/quiz/' + event.target.id).then((response)=>{
-
-        if(this.state.answer == event.target.value) {
+        console.log(event.target.value)
+        if(this.state.answer === event.target.value) {
           this.isCorrect()
         } else {
           this.isIncorrect()
