@@ -13,7 +13,9 @@ class App extends Component {
 
   handleChange = (event) => {
       this.setState({
-        [event.target.id]: event.target.value
+        [event.target.id]: event.target.value,
+        answer_char: event.target.value,
+
       })
     }
 
@@ -91,8 +93,9 @@ class App extends Component {
     isTrue=(event)=>{
       event.preventDefault()
       axios.get('/quiz/' + event.target.id).then((response)=>{
-        console.log(event.target.value)
-        if(this.state.answer === event.target.value) {
+        let ans = this.state
+        console.log(ans)
+        if(this.state.answer === this.state.answer_char) {
           this.isCorrect()
         } else {
           this.isIncorrect()
@@ -107,7 +110,11 @@ class App extends Component {
 render = () => {
 return (
 <div className='container'>
-  <h1>Coding Quiz</h1>
+  <div id='headerBar'>
+    <div><h1>Coding Quiz</h1></div>
+    <div></div>
+    <div></div>
+  </div>
   <div className='main'>
     <h2>Create New Question:</h2>
       <form onSubmit={this.handleSubmit}>
@@ -145,6 +152,7 @@ return (
     </div>
 </div>
     )
+    return  <Quiz />
   }
 }
 
