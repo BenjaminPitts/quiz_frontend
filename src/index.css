@@ -22,17 +22,34 @@ code {
     monospace;
 }
 
-#headerBar:nth-child(1) {
-  width: 100%;
-  background-color: #BDE4F4;
+h1 {
+  margin-block-start: 0em;
+  margin-block-end: 0em;
 }
 
-#headerBar:nth-child(2) {
+#headerBar div:nth-child(1) {
   width: 100%;
+  height: 100px;
+  background-color: #BDE4F4;
+  color: #FFF;
+  font-size: 2em;
+}
+
+#headerBar div:nth-child(1) h1 {
+  position: absolute;
+  right: 10%;
+  top: 38px;
+}
+
+#headerBar div:nth-child(3) {
+  display: block;
+  width: 100%;
+  height: 30px;
   background-color: #404969;
 }
 
-#headerBar:nth-child(3) {
+#headerBar div:nth-child(2) {
   width: 100%;
+  height: 5px;
   background-color: #FF7F50;
 }
