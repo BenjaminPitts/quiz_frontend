@@ -80,7 +80,11 @@ class App extends Component {
 render = () => {
 return (
 <div className='container'>
-  <h1>Coding Quiz</h1>
+  <div id='headerBar'>
+    <div><h1>Coding Quiz</h1></div>
+    <div></div>
+    <div></div>
+  </div>
   <div className='main'>
     <h2>Create New Question:</h2>
       <form onSubmit={this.handleSubmit}>
@@ -112,7 +116,7 @@ return (
 </div>
 
     )
-    return  <Quiz /> 
+    return  <Quiz />
   }
 }
 
