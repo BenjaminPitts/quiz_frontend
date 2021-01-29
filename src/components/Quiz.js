@@ -23,13 +23,23 @@ class Quiz extends Component {
           <br />
           <input type='text' id='answer' onChange={this.props.handleChange} />
           <br />
+          <label htmlFor='answer_char'>A_char:</label>
+          <input type='text' id='answer_char' onChange={this.props.handleChange} value={this.props.answer_char} />
+          <br />
+          <label htmlFor='point_value'>P:</label>
+          <input type='text' id='point_value' onChange={this.props.handleChange} value={this.props.point_value} />
+          <br />
           <input type='submit' value='Update Question' />
           <br />
           <button value={this.props.quiz.id} onClick={this.props.deleteQuestion}>
           DELETE QUESTION</button>
+
           </form>
         </details>
-
+        <button value={this.props.quiz.id} onClick={this.props.showAnswer}>
+        Show Answer</button>
+        <br />
+        
       </div>
     )
   }
