@@ -6,17 +6,22 @@ class App extends Component {
   state = {
     question: '',
     answer: '',
-    quiz: [],
+    answer_char: '',
+    point_value: '',
+    quizq: [],
   }
 
   handleChange = (event) => {
       this.setState({
-        [event.target.id]: event.target.value
+        [event.target.id]: event.target.value,
+        answer_char: event.target.value,
+
       })
     }
 
     handleSubmit = (event) => {
       event.preventDefault()
+      event.target.reset()
       axios.post('/quiz', this.state).then((response) => {
         this.getQuestion()
       })
@@ -42,12 +47,11 @@ class App extends Component {
       .get('/quiz')
       .then(
         (response) => this.setState({
-          quiz: response.data,
+          quizq: response.data,
           question: '',
-          choice1: '',
-          choice2: '',
-          choice3: '',
-          answer: ''
+          answer: '',
+          answer_char: '',
+          point_value: ''
         }),
         (err) => console.error(err)
       )
@@ -59,17 +63,43 @@ class App extends Component {
       let answer = this.state.showAnswer
       axios.get('/quiz/' + event.target.id).then((response)=>{
 
+        console.log(response.data)
           if(answer) {
             this.setState({
               showAnswer:false,
-              quiz: response.data
+              quiz_a: response.data[0].answer_char
             })
           } else {
             this.setState({
               showAnswer:true,
-              quiz: response.data
+              quiz_a: response.data[0].answer_char
             })
           }
+
+      })
+    }
+
+    isCorrect=()=>{
+      return <div className='correct'>
+      <h3>CORRECT!</h3>
+      </div>
+    }
+    isIncorrect=()=>{
+      return <div className='incorrect'>
+      <h3>INCORRECT!</h3>
+      </div>
+    }
+
+    isTrue=(event)=>{
+      event.preventDefault()
+      axios.get('/quiz/' + event.target.id).then((response)=>{
+        let ans = this.state
+        console.log(ans)
+        if(this.state.answer === this.state.answer_char) {
+          this.isCorrect()
+        } else {
+          this.isIncorrect()
+        }
       })
     }
 
@@ -89,36 +119,42 @@ return (
     <h2>Create New Question:</h2>
       <form onSubmit={this.handleSubmit}>
       <label htmlFor='question'>Q:</label>
-      <input type='text' id='question' onChange={this.handleChange} value={this.state.Question} /><br />
+      <input type='text' id='question' onChange={this.handleChange} value={this.state.question} /><br />
       <label htmlFor='answer'>A:</label>
       <input type='text' id='answer' onChange={this.handleChange} value={this.state.answer} />
       <br />
+      <label htmlFor='answer_char'>A_char:</label>
+      <input type='text' id='answer_char' onChange={this.handleChange} value={this.state.answer_char} />
+      <br />
+      <label htmlFor='point_value'>P:</label>
+      <input type='text' id='point_value' onChange={this.handleChange} value={this.state.point_value} />
+      <br />
       <input type='submit' value='Create Question' />
       </form>
-        <button value={this._id} onClick={this.showAnswer}>
-        Show Answer</button>
-        <br />
-        <br />
-<h4>{ this.state.showAnswer ? 'Answer: ' + this.state.answer : null }</h4>
+
+
 
 <div className='quiz'>
+  {this.state.quizq.map((quiz) => {
 
-  {this.state.quiz.map((quiz) => {
     return  <Quiz quiz={quiz} key={quiz.id}
     updateQuestion={this.updateQuestion}
     deleteQuestion={this.deleteQuestion}
     handleChange={this.handleChange}
     showAnswer={this.showAnswer}
+    isTrue={this.isTrue}
     />
 })}
+
+  <h4>{ this.state.showAnswer ? 'Answer: ' + this.state.quiz_a : null }</h4>
+
       </div>
     </div>
 </div>
-
     )
     return  <Quiz />
   }
 }
 
 
-export default App;
+export default App
