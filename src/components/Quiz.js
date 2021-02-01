@@ -17,31 +17,25 @@ class Quiz extends Component {
         <details>
           <summary>editQuestion: </summary>
           <form id={this.props.quiz.id} onSubmit={this.props.updateQuestion}>
-          <label htmlFor='question'>question:</label>
-          <br />
+          <label htmlFor='question'>updateQuestion:</label>
           <input type='text' id='question' onChange={this.props.handleChange} />
           <br />
-          <label htmlFor='age'>answer:</label>
-          <br />
+          <label htmlFor='age'>choices(A,B,C,D):</label>
           <input type='text' id='answer' onChange={this.props.handleChange} />
           <br />
-          <label htmlFor='answer_char'>correctAnswer(A,B,C,D):</label>
-          <br />
-          <input type='text' id='answer_char' onChange={this.props.handleChange} value={this.props.answer_char} />
+          <label htmlFor='answer_char'>answer(A,B,C,D):</label>
+          <input type='text' id='answer_char' onChange={this.props.handleChange} />
           <br />
           <label htmlFor='point_value'>pointValue:</label>
-          <br />
-          <input type='text' id='point_value' onChange={this.props.handleChange} value={this.props.point_value} />
+          <input type='text' id='point_value' onChange={this.props.handleChange} />
           <br />
           <input type='submit' value='updateQuestion' />
           <br />
           <br />
           <button value={this.props.quiz.id} onClick={this.props.deleteQuestion}>
           deleteQuestion</button>
-
           </form>
         </details>
-
 
       </div>
     )

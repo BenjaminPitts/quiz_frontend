@@ -22,7 +22,7 @@ class App extends Component {
     }
 
     handleSubmit = (event) => {
-      event.preventDefault()
+      // event.preventDefault()
       axios.post('/quiz', this.state).then((response) => {
         console.log(response.data)
         this.setState({
@@ -72,19 +72,32 @@ class App extends Component {
       })
     }
     isIncorrect=(event)=>{
-
       this.setState({
         correct:'INCORRECT!'
       })
+          if (this.state.points < 0) {
+            this.youLose()
+          }
+    }
+    youLose=()=>{
+        this.setState({
+          correct: 'YOU CLEARLY NEED MORE PRACTCE!'
+        })
     }
 
     componentDidMount = () => {
       this.getQuestion()
     }
 
-    scoreBoard=()=>{
+    addPoints=()=>{
       this.setState({
         points: this.state.points += this.state.point_value
+      })
+    }
+
+    removePoints=()=>{
+      this.setState({
+        points:this.state.points -= this.state.point_value
       })
     }
 
@@ -92,11 +105,12 @@ class App extends Component {
         console.log(this.state)
         if(this.state.answer_char === this.state.input.toUpperCase()) {
           this.isCorrect()
-          this.scoreBoard()
+          this.addPoints()
           this.getQuestion()
           event.preventDefault()
         } else {
           this.isIncorrect()
+          this.removePoints()
           event.preventDefault()
           event.target.reset()
         }
@@ -116,15 +130,16 @@ return (
     <summary>createNewQuestion:</summary>
       <form onSubmit={this.handleSubmit}>
       <label htmlFor='question'>enterQuestion:</label>
-      <input type='text' id='question' onChange={this.handleChange} value={this.state.question} /><br />
-      <label htmlFor='answer'>enterAnswer:</label>
-      <input type='text' id='answer' onChange={this.handleChange} value={this.state.answer} />
+      <input type='text' id='question' onChange={this.handleChange} />
       <br />
-      <label htmlFor='answer_char'>correctAnswer(A,B,C,D):</label>
-      <input type='text' id='answer_char' onChange={this.handleChange} value={this.state.answer_char} />
+      <label htmlFor='answer'>choices(A,B,C,D):</label>
+      <input type='text' id='answer' onChange={this.handleChange} />
+      <br />
+      <label htmlFor='answer_char'>answer(A,B,C,D):</label>
+      <input type='text' id='answer_char' onChange={this.handleChange} />
       <br />
       <label htmlFor='point_value'>pointValue:</label>
-      <input type='text' id='point_value' onChange={this.handleChange} value={this.state.point_value} />
+      <input type='text' id='point_value' onChange={this.handleChange} />
       <br />
       <input type='submit' value='createQuestion' />
       </form>
