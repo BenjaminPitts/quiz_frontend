@@ -6,6 +6,7 @@ class Quiz extends Component {
       <div className='update'>
           <h4>Question: {this.props.quiz.question}</h4>
           <h5>Answer: {this.props.quiz.answer}</h5>
+          <h5>Point Value: {this.props.quiz.point_value}</h5>
         <form onSubmit={this.props.isTrue}>
           <input type='text' id={this.props.quiz.id} onChange={this.props.handleChange} />
           <input type='submit' value='Submit Answer' />

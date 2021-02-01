@@ -9,6 +9,7 @@ class App extends Component {
     answer_char: '',
     point_value: '',
     input: '',
+    correct: '',
     points: 0,
     quizq: [],
   }
@@ -16,19 +17,20 @@ class App extends Component {
   handleChange = (event) => {
       this.setState({
         [event.target.id]: event.target.value,
+        input: event.target.value
       })
     }
 
     handleSubmit = (event) => {
       event.preventDefault()
-      event.target.reset()
       axios.post('/quiz', this.state).then((response) => {
+        console.log(response.data)
         this.setState({
-          quizq: response.data,
-          question: '',
-          answer: '',
-          answer_char: '',
-          point_value: ''
+          quizq: [response.data],
+          question: response.data.question,
+          answer: response.data.answer,
+          answer_char: response.data.answer_char,
+          point_value: parseInt(response.data.point_value)
         })
       })
     }
@@ -57,7 +59,7 @@ class App extends Component {
           question: response.data[0].question,
           answer: response.data[0].answer,
           answer_char: response.data[0].answer_char,
-          point_value: response.data[0].point_value
+          point_value: parseInt(response.data[0].point_value)
         }),
         (err) => console.error(err)
       )
@@ -65,14 +67,15 @@ class App extends Component {
     }
 
     isCorrect=()=>{
-      return <div className='correct'>
-      <h3>CORRECT!</h3>
-      </div>
+      this.setState({
+        correct:'CORRECT!'
+      })
     }
-    isIncorrect=()=>{
-      return <div className='incorrect'>
-      <h3>INCORRECT!</h3>
-      </div>
+    isIncorrect=(event)=>{
+
+      this.setState({
+        correct:'INCORRECT!'
+      })
     }
 
     componentDidMount = () => {
@@ -86,15 +89,17 @@ class App extends Component {
     }
 
     isTrue=(event)=>{
-       event.preventDefault()
-       this.scoreBoard()
-        if(this.state.answer_char === event.target.value) {
+        console.log(this.state)
+        if(this.state.answer_char === this.state.input.toUpperCase()) {
           this.isCorrect()
-
+          this.scoreBoard()
+          this.getQuestion()
+          event.preventDefault()
         } else {
           this.isIncorrect()
+          event.preventDefault()
+          event.target.reset()
         }
-        this.getQuestion()
       }
 
 
@@ -119,7 +124,7 @@ return (
       <input type='text' id='answer_char' onChange={this.handleChange} value={this.state.answer_char} />
       <br />
       <label htmlFor='point_value'>Point Value:</label>
-      <input type='text' id='point_value' onChange={this.handleChange} value={this.state.points} />
+      <input type='text' id='point_value' onChange={this.handleChange} value={this.state.point_value} />
       <br />
       <input type='submit' value='Create Question' />
       </form>
@@ -138,12 +143,15 @@ return (
     />
 })}
 
+<div className='correct'>
+<h2>{this.state.correct}</h2>
+</div>
 
       </div>
     </div>
 </div>
     )
-    return  <Quiz />
+
   }
 }
 
