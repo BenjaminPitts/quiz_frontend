@@ -107,30 +107,30 @@ render = () => {
 return (
 <div className='container'>
   <div id='headerBar'>
-    <div><h1>Coding Quiz</h1></div>
+    <div><h1>Quiz.js</h1></div>
     <div></div>
     <div></div>
   </div>
   <div className='main'>
   <details>
-    <summary>Create New Question:</summary>
+    <summary>createNewQuestion:</summary>
       <form onSubmit={this.handleSubmit}>
-      <label htmlFor='question'>Enter Question:</label>
+      <label htmlFor='question'>enterQuestion:</label>
       <input type='text' id='question' onChange={this.handleChange} value={this.state.question} /><br />
-      <label htmlFor='answer'>Enter Answer:</label>
+      <label htmlFor='answer'>enterAnswer:</label>
       <input type='text' id='answer' onChange={this.handleChange} value={this.state.answer} />
       <br />
-      <label htmlFor='answer_char'>Answer (A, B, C, D):</label>
+      <label htmlFor='answer_char'>correctAnswer(A,B,C,D):</label>
       <input type='text' id='answer_char' onChange={this.handleChange} value={this.state.answer_char} />
       <br />
-      <label htmlFor='point_value'>Point Value:</label>
+      <label htmlFor='point_value'>pointValue:</label>
       <input type='text' id='point_value' onChange={this.handleChange} value={this.state.point_value} />
       <br />
-      <input type='submit' value='Create Question' />
+      <input type='submit' value='createQuestion' />
       </form>
 </details>
-
-<h2>Points: {this.state.points}</h2>
+<br />
+<h2>currentPoints: {this.state.points}</h2>
 
 <div className='quiz'>
   {this.state.quizq.map((quiz) => {
