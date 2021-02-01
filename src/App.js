@@ -8,14 +8,14 @@ class App extends Component {
     answer: '',
     answer_char: '',
     point_value: '',
+    input: '',
+    points: 0,
     quizq: [],
   }
 
   handleChange = (event) => {
       this.setState({
         [event.target.id]: event.target.value,
-        answer_char: event.target.value,
-
       })
     }
 
@@ -23,7 +23,13 @@ class App extends Component {
       event.preventDefault()
       event.target.reset()
       axios.post('/quiz', this.state).then((response) => {
-        this.getQuestion()
+        this.setState({
+          quizq: response.data,
+          question: '',
+          answer: '',
+          answer_char: '',
+          point_value: ''
+        })
       })
     }
 
@@ -43,15 +49,16 @@ class App extends Component {
     }
 
     getQuestion = () => {
+
       axios
       .get('/quiz')
       .then(
         (response) => this.setState({
           quizq: response.data,
-          question: '',
-          answer: '',
-          answer_char: '',
-          point_value: ''
+          question: response.data[0].question,
+          answer: response.data[0].answer,
+          answer_char: response.data[0].answer_char,
+          point_value: response.data[0].point_value
         }),
         (err) => console.error(err)
       )
@@ -67,15 +74,14 @@ class App extends Component {
           if(answer) {
             this.setState({
               showAnswer:false,
-              quiz_a: response.data[0].answer_char
+              quizq: response.data
             })
           } else {
             this.setState({
               showAnswer:true,
-              quiz_a: response.data[0].answer_char
+              quizq: response.data
             })
           }
-
       })
     }
 
@@ -90,22 +96,28 @@ class App extends Component {
       </div>
     }
 
-    isTrue=(event)=>{
-      event.preventDefault()
-      axios.get('/quiz/' + event.target.id).then((response)=>{
-        let ans = this.state
-        console.log(ans)
-        if(this.state.answer === this.state.answer_char) {
-          this.isCorrect()
-        } else {
-          this.isIncorrect()
-        }
-      })
-    }
-
     componentDidMount = () => {
       this.getQuestion()
     }
+
+    scoreBoard=()=>{
+      this.setState({
+        points: this.state.points += this.state.point_value
+      })
+    }
+
+    isTrue=(event)=>{
+       event.preventDefault()
+       this.scoreBoard()
+        if(this.state.answer_char === event.target.value) {
+          this.isCorrect()
+
+        } else {
+          this.isIncorrect()
+        }
+        this.getQuestion()
+      }
+
 
 render = () => {
 return (
@@ -116,23 +128,25 @@ return (
     <div></div>
   </div>
   <div className='main'>
-    <h2>Create New Question:</h2>
+  <details>
+    <summary>Create New Question:</summary>
       <form onSubmit={this.handleSubmit}>
-      <label htmlFor='question'>Q:</label>
+      <label htmlFor='question'>Enter Question:</label>
       <input type='text' id='question' onChange={this.handleChange} value={this.state.question} /><br />
-      <label htmlFor='answer'>A:</label>
+      <label htmlFor='answer'>Enter Answer:</label>
       <input type='text' id='answer' onChange={this.handleChange} value={this.state.answer} />
       <br />
-      <label htmlFor='answer_char'>A_char:</label>
+      <label htmlFor='answer_char'>Answer (A, B, C, D):</label>
       <input type='text' id='answer_char' onChange={this.handleChange} value={this.state.answer_char} />
       <br />
-      <label htmlFor='point_value'>P:</label>
-      <input type='text' id='point_value' onChange={this.handleChange} value={this.state.point_value} />
+      <label htmlFor='point_value'>Point Value:</label>
+      <input type='text' id='point_value' onChange={this.handleChange} value={this.state.points} />
       <br />
       <input type='submit' value='Create Question' />
       </form>
+</details>
 
-
+<h2>Points: {this.state.points}</h2>
 
 <div className='quiz'>
   {this.state.quizq.map((quiz) => {
@@ -146,7 +160,6 @@ return (
     />
 })}
 
-  <h4>{ this.state.showAnswer ? 'Answer: ' + this.state.quiz_a : null }</h4>
 
       </div>
     </div>
