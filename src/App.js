@@ -49,7 +49,6 @@ class App extends Component {
     }
 
     getQuestion = () => {
-
       axios
       .get('/quiz')
       .then(
@@ -63,26 +62,6 @@ class App extends Component {
         (err) => console.error(err)
       )
       .catch((error) => console.error(error))
-    }
-
-    showAnswer=(event)=>{
-      event.preventDefault()
-      let answer = this.state.showAnswer
-      axios.get('/quiz/' + event.target.id).then((response)=>{
-
-        console.log(response.data)
-          if(answer) {
-            this.setState({
-              showAnswer:false,
-              quizq: response.data
-            })
-          } else {
-            this.setState({
-              showAnswer:true,
-              quizq: response.data
-            })
-          }
-      })
     }
 
     isCorrect=()=>{
@@ -155,7 +134,6 @@ return (
     updateQuestion={this.updateQuestion}
     deleteQuestion={this.deleteQuestion}
     handleChange={this.handleChange}
-    showAnswer={this.showAnswer}
     isTrue={this.isTrue}
     />
 })}
