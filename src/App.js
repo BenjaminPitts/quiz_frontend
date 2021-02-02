@@ -26,7 +26,7 @@ class App extends Component {
 
     handleSubmit = (event) => {
       // event.preventDefault()
-      axios.post('https://quiz-js-frontend.herokuapp.com/quiz', this.state).then((response) => {
+      axios.post('https://quiz-js-backend.herokuapp.com/quiz', this.state).then((response) => {
         console.log(response.data)
         this.setState({
           quizq: [response.data],
@@ -42,20 +42,20 @@ class App extends Component {
       event.preventDefault()
       event.target.reset()
       const id = event.target.id
-      axios.put('https://quiz-js-frontend.herokuapp.com/quiz/' + id, this.state).then((response) => {
+      axios.put('https://quiz-js-backend.herokuapp.com/quiz/' + id, this.state).then((response) => {
         this.getQuestion()
       })
     }
 
     deleteQuestion = (event) => {
-      axios.delete('https://quiz-js-frontend.herokuapp.com/quiz/' + event.target.value).then((response) => {
+      axios.delete('https://quiz-js-backend.herokuapp.com/quiz/' + event.target.value).then((response) => {
         this.getQuestion()
       })
     }
 
     getQuestion = () => {
       axios
-      .get('https://quiz-js-frontend.herokuapp.com/quiz')
+      .get('https://quiz-js-backend.herokuapp.com/quiz')
       .then(
         (response) => this.setState({
           quizq: response.data,
