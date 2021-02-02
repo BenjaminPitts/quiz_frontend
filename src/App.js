@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import Quiz from './components/Quiz'
 import axios from 'axios'
 
+const dotenv = require('dotenv')
+dotenv.config()
+
 class App extends Component {
   state = {
     question: '',
