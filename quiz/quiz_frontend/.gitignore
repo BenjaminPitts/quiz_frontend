@@ -10,8 +10,12 @@
 /test/version_tmp/
 /tmp/
 
+.eslintcache
+
 # Used by dotenv library to load environment variables.
 # .env
+
+.eslintcache
 
 # Ignore Byebug command history file.
 .byebug_history
