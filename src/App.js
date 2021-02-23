@@ -110,6 +110,7 @@ class App extends Component {
           this.addPoints()
           this.getQuestion()
           event.preventDefault()
+          event.target.reset()
         } else {
           this.isIncorrect()
           this.removePoints()

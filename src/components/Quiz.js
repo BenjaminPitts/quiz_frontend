@@ -45,3 +45,10 @@ class Quiz extends Component {
 
 
 export default Quiz
+
+// CREATE TABLE quiz (id serial, question text, answer text, answer_char varchar(1), point_value int);
+//
+// INSERT INTO quiz (question, answer, answer_char, point_value) VALUES ('Which of the following type of variable is visible only within a function where it is defined?','A- global variable B- local variable C- Both of the above. D- None of the above.', 'B', 200);
+// INSERT INTO quiz (question, answer, answer_char, point_value) VALUES ('Which built-in method returns the calling string value converted to upper case?', 'A- toUpperCase() B- toUpper() C- changeCase(case) D- None of the above.','A', 100);
+// INSERT INTO quiz (question, answer, answer_char, point_value) VALUES ('Which of the following function of Array object joins all elements of an array into a string?', 'A- concat() B- join() C- pop() D- map()', 'B', 300);
+// INSERT INTO quiz (question, answer, answer_char, point_value) VALUES ('Which of the following function of Array object returns true if at least one element in this array satisfies the provided testing function?', 'A- reverse() B- shift() C- slice() D- some()', 'D', 300);
